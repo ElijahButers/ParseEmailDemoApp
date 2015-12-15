@@ -37,8 +37,18 @@ class ViewController: UIViewController, PFLogInViewControllerDelegate, PFSignUpV
             
             self.presentViewController(self.loginController, animated: true, completion: nil)
                 
-        }
-        else {
+        } else {
+            
+            PFUser.currentUser()?.fetchInBackgroundWithBlock({ (object, error) -> Void in
+                
+                let isEmailVerified = PFUser.currentUser()?.objectForKey("emailVerified")?.boolValue
+                
+                if isEmailVerified == true {
+                    self.statusLabel.text = "Email has been verified."
+                } else {
+                    self.statusLabel.text = "Email is not verified."
+                }
+            })
             
         }
         }
@@ -53,7 +63,7 @@ class ViewController: UIViewController, PFLogInViewControllerDelegate, PFSignUpV
     
     func logInViewController(logInController: PFLogInViewController, shouldBeginLogInWithUsername username: String, password: String) -> Bool {
         
-        if username.isEmpty && !password.isEmpty {
+        if !username.isEmpty && !password.isEmpty {
             return true
         } else {
             return false
