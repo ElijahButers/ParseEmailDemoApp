@@ -7,8 +7,13 @@
 //
 
 import UIKit
+import Parse
+import ParseUI
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate {
+    
+    var logincontroller: PFLogInViewController!
+    var singupController: PFSignUpViewController!
 
     @IBOutlet weak var statusLabel: UILabel!
     
