@@ -12,8 +12,8 @@ import ParseUI
 
 class ViewController: UIViewController, PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate {
     
-    var logincontroller: PFLogInViewController!
-    var singupController: PFSignUpViewController!
+    var loginController: PFLogInViewController!
+    var signupController: PFSignUpViewController!
 
     @IBOutlet weak var statusLabel: UILabel!
     
@@ -21,6 +21,28 @@ class ViewController: UIViewController, PFLogInViewControllerDelegate, PFSignUpV
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
     }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if PFUser.currentUser() == nil {
+            
+            self.loginController = PFLogInViewController()
+            self.loginController.delegate = self
+            self.loginController.fields = [.UsernameAndPassword, .LogInButton, .SignUpButton, .PasswordForgotten, .DismissButton]
+            
+            self.signupController = PFSignUpViewController()
+            self.signupController.delegate = self
+            self.loginController.signUpController = self.signupController
+            
+            self.presentViewController(self.loginController, animated: true, completion: nil)
+                
+        }
+        else {
+            
+        }
+        }
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
